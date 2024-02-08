@@ -1,6 +1,5 @@
-// import bcrypt from ('bcrypt')
-const bcrypt = require('bcrypt');
 
+const bcrypt = require('bcrypt');
 const hashpassword =async (password)=>{
     try {
         const saltRounds =10;

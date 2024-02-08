@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 const usermodel = require("../models/userModel");
 const hashpassword = require("../helpers/authHelper");
