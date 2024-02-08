@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: ecommerce-backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 14  # Specify the desired Node.js version
