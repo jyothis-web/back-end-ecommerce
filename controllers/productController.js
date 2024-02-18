@@ -9,7 +9,7 @@ const createproductController = async (req, res) => {
   try {
     const { name, price, category, rating, newimg,description } = req.body;
     const file = req.file;
-
+console.log(req.body);
     if (!file) {
       return res.status(400).json({ message: "Photo is required" });
     }
