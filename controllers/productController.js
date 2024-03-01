@@ -5,6 +5,7 @@ const path = require("path");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 
+//for creating products
 const createproductController = async (req, res) => {
   try {
     const { name, price, category, rating, newimg,description } = req.body;
@@ -197,7 +198,6 @@ const singleproductController = async (req, res) => {
     });
   }
 };
-
 
 //for geting products based on category
 const getProductsByCategoryController = async (req, res) => {
