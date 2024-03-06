@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 const usermodel = require("../models/userModel");
 const hashpassword = require("../helpers/authHelper");
 
@@ -99,7 +99,6 @@ const registerController = async (req, res) => {
 //   }
 // };
 
-
 const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -130,11 +129,11 @@ const loginController = async (req, res) => {
     }
 
     // Generate token
- const token = await jwt.sign(
-  { _id: user._id },
-  process.env.JWT_SECRET_REFRESH_TOKEN,
-  { expiresIn: "7d" }
-);
+    const token = await jwt.sign(
+      { _id: user._id },
+      process.env.JWT_SECRET_REFRESH_TOKEN,
+      { expiresIn: "7d" }
+    );
 
     res.status(200).json({
       success: true,
@@ -152,4 +151,55 @@ const loginController = async (req, res) => {
   }
 };
 
-module.exports = { registerController, loginController};
+const registerEmployerController = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  try {
+    // const result = await authSchema.validateAsync(req.body);
+    // console.log(result);
+
+    // Check if an admin with the same username or email already exists
+    const existingAdmin = await usermodel.findOne({ email });
+
+    // existing user checking
+    if (existingAdmin) {
+      return res.status(200).json({
+        success: false,
+        message: "Already registered, please login",
+      });
+    }
+    const hashedPassword = await hashpassword(password);
+
+    const adminUser = new usermodel({
+      name,
+      email,
+      password: hashedPassword,
+      role: 1,
+    });
+
+    await adminUser.save();
+
+    // const accessToken = await signAccessToken(adminUser.id);
+    // const refreshToken = await signRefreshToken(adminUser.id);
+
+    return res.status(201).json({
+      message: "Admin registration successful",
+      adminUser,
+      // refreshToken,
+    });
+  } catch (error) {
+    if (error) {
+      // Validation error occurred
+      return res.status(400).json({ message: error.message });
+    } else {
+      console.error("Error registering Admin:", error);
+      return res.status(500).json({ message: "Server error" });
+    }
+  }
+};
+
+module.exports = {
+  registerController,
+  loginController,
+  registerEmployerController,
+};

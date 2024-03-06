@@ -12,6 +12,7 @@ router.post('/login', authController.loginController);
 
 
 //test routes admin
+router.post('/admin/Register',authController.registerEmployerController);
 router.post('/admin/login',isadmin,authController.loginController);
 
 
